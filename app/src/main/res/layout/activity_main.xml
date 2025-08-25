@@ -5,36 +5,49 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="ExtraText">
 
     <TextView
         android:id="@+id/textView"
         android:text="Hello World!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+    <!--        android:background="@color/blue"-->
     <TextView
         android:id="@+id/greeting_textview"
         android:text="Hello World!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+        <!--android:background="@color/blue"-->
     <Button
         android:id="@+id/increment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/greeting_textview"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/decrement_button"
         app:layout_constraintRight_toRightOf="parent"
         android:text="@string/increment"
         />
+    <Button
+        android:id="@+id/decrement_button"
+        android:onClick="decrement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/greeting_textview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/increment_button"
+        android:text="@string/decrement"
+        />
+    <include layout="@layout/test"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
