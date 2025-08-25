@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Lab01</string>
+    <string name="app_name">Lab 01</string>
+    <string name="increment">Increment</string>
+    <string name="display_text">Display Text</string>
 </resources>
