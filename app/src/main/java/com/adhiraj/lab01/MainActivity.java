@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         if (count < 0) {
             countDisplay.setTextColor(ContextCompat.getColor(this, R.color.nonchalant_red));
         } else {
-            countDisplay.setTextColor(ContextCompat.getColor(this, R.color.black));
+            countDisplay.setTextColor(ContextCompat.getColor(this, R.color.white));
         }
     }
 }

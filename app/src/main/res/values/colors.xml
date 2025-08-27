@@ -4,4 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="nonchalant_red">#FFFF0000</color>
     <color name="blue">#FF0000FF</color>
+
+    <color name="arcade_background">#FF000000</color> <!-- Black -->
+    <color name="arcade_text">#FFFFFFFF</color>     <!-- White -->
+    <color name="arcade_primary">#FF00FF00</color>  <!-- Bright Green -->
+    <color name="arcade_accent">#FFFF00FF</color>   <!-- Bright Magenta -->
+    <color name="arcade_secondary">#FF00FFFF</color><!-- Bright Cyan -->
+    <color name="button_color_1">#FFFFD700</color> <!-- Gold/Yellow -->
+    <color name="button_color_2">#FFFF4500</color> <!-- OrangeRed -->
 </resources>

@@ -4,4 +4,7 @@
     <string name="display_text">Display Text</string>
     <string name="decrement">Decrement</string>
     <string name="hello">hello</string>
+    <string name="_0">0</string>
+    <string name="arcade_machine">Arcade machine</string>
+    <string name="arcade_game_background">Arcade game background</string>
 </resources>
