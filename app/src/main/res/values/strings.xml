@@ -7,4 +7,7 @@
     <string name="_0">0</string>
     <string name="arcade_machine">Arcade machine</string>
     <string name="arcade_game_background">Arcade game background</string>
+    <string name="floating_rocket">Floating rocket</string>
+    <string name="star">Star</string>
+    <string name="welcome_to_the_arcade">Welcome to the Arcade!</string>
 </resources>
