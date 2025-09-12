@@ -10,4 +10,11 @@
     <string name="star">Star</string>
     <string name="floating_rocket_br">Floating rocket bottom right</string>
     <string name="level_one_intro_text">Level 1: These Kids</string>
+
+    <string name="level_1_button_text">Level 1: These Kids</string>
+    <string name="level_2_button_text">Level 2: Get Up!</string>
+    <string name="level_3_button_text">Level 3: Submit Your Assignments</string>
+    <string name="level_4_button_text">Level 4: Is It Really That Hard to Get an A?</string>
+    <string name="level_5_button_text">Level 5: ???</string>
+    <string name="play_button_text">Play</string>
 </resources>
