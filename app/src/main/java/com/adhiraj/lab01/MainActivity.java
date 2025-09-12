@@ -7,17 +7,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.content.Intent;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.LinearInterpolator; // Changed for floating effect
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ConstraintLayout mainLayout;
     private ImageView rocketImageView;
-    private ImageView rocketImageViewBR;
+    // private ImageView rocketImageViewBR; // Removed second rocket
     private TextView greetingDisplay;
     private Button playButton;
 
     private final List<View> starViews = new ArrayList<>();
     private final Random random = new Random();
-    private final int padding = 20; // Padding for rocket animation from screen edges
+    private final int padding = 100;
 
     private static final int TOP_REGION_STARS = 10;
     private static final int BOTTOM_RIGHT_REGION_STARS = 5;
@@ -49,9 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.arcade_main_layout);
         greetingDisplay = findViewById(R.id.greeting_textview);
-        rocketImageView = findViewById(R.id.rocket_imageview);
-        rocketImageViewBR = findViewById(R.id.rocket_imageview_br);
-        playButton = findViewById(R.id.play_button);
+        rocketImageView = findViewById(R.id.rocket_imageview);playButton = findViewById(R.id.play_button);
 
         playButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
@@ -67,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     mainLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
                     if (mainLayout.getWidth() == 0 || mainLayout.getHeight() == 0) {
-                        mainLayout.post(this::onGlobalLayout); // Retry if layout not ready
+                        mainLayout.post(this::onGlobalLayout);
                         return;
                     }
 
@@ -75,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                     int screenHeight = mainLayout.getHeight();
 
                     animateRocketPerimeter(rocketImageView, screenWidth, screenHeight, 0);
-                    animateRocketPerimeter(rocketImageViewBR, screenWidth, screenHeight, 11000); // 11 second delay
 
                     createStarAnimationTopRegion(TOP_REGION_STARS);
                     createStarAnimationBottomRightRegion(BOTTOM_RIGHT_REGION_STARS);
@@ -100,11 +93,10 @@ public class MainActivity extends AppCompatActivity {
 
         rocket.setX(p0.x);
         rocket.setY(p0.y);
-        rocket.setRotation(0);
+        rocket.setRotation(0); // Initial rotation state
 
-        long edgeDuration = 5000;
-        long rotationDuration = 500;
-        float curveFactor = 100f;
+        long edgeDuration = 8000; // Increased for slower movement
+        float curveFactor = 250f; // Increased for curvier paths
 
         Path path0 = new Path();
         path0.moveTo(p0.x, p0.y);
@@ -124,46 +116,56 @@ public class MainActivity extends AppCompatActivity {
 
         ObjectAnimator move0 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path0);
         move0.setDuration(edgeDuration);
-        move0.setInterpolator(new AccelerateDecelerateInterpolator());
+        move0.setInterpolator(new LinearInterpolator());
 
         ObjectAnimator move1 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path1);
         move1.setDuration(edgeDuration);
-        move1.setInterpolator(new AccelerateDecelerateInterpolator());
+        move1.setInterpolator(new LinearInterpolator());
 
         ObjectAnimator move2 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path2);
         move2.setDuration(edgeDuration);
-        move2.setInterpolator(new AccelerateDecelerateInterpolator());
+        move2.setInterpolator(new LinearInterpolator());
 
         ObjectAnimator move3 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path3);
         move3.setDuration(edgeDuration);
-        move3.setInterpolator(new AccelerateDecelerateInterpolator());
+        move3.setInterpolator(new LinearInterpolator());
 
+        // Rotation animators: duration changed to edgeDuration
         ObjectAnimator rotateTo90 = ObjectAnimator.ofFloat(rocket, "rotation", 0, 90);
-        rotateTo90.setDuration(rotationDuration);
+        rotateTo90.setDuration(edgeDuration); // Use edgeDuration for gradual turn
         rotateTo90.setInterpolator(new LinearInterpolator());
 
         ObjectAnimator rotateTo180 = ObjectAnimator.ofFloat(rocket, "rotation", 90, 180);
-        rotateTo180.setDuration(rotationDuration);
+        rotateTo180.setDuration(edgeDuration); // Use edgeDuration for gradual turn
         rotateTo180.setInterpolator(new LinearInterpolator());
 
         ObjectAnimator rotateTo270 = ObjectAnimator.ofFloat(rocket, "rotation", 180, 270);
-        rotateTo270.setDuration(rotationDuration);
+        rotateTo270.setDuration(edgeDuration); // Use edgeDuration for gradual turn
         rotateTo270.setInterpolator(new LinearInterpolator());
 
         ObjectAnimator rotateTo360 = ObjectAnimator.ofFloat(rocket, "rotation", 270, 360);
-        rotateTo360.setDuration(rotationDuration);
+        rotateTo360.setDuration(edgeDuration); // Use edgeDuration for gradual turn
         rotateTo360.setInterpolator(new LinearInterpolator());
 
+        // AnimatorSet to play movement and rotation together for each segment
+        AnimatorSet segment0Animator = new AnimatorSet();
+        segment0Animator.playTogether(move0, rotateTo90);
+
+        AnimatorSet segment1Animator = new AnimatorSet();
+        segment1Animator.playTogether(move1, rotateTo180);
+
+        AnimatorSet segment2Animator = new AnimatorSet();
+        segment2Animator.playTogether(move2, rotateTo270);
+
+        AnimatorSet segment3Animator = new AnimatorSet();
+        segment3Animator.playTogether(move3, rotateTo360);
+        
         final AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(
-                rotateTo90,
-                move0,
-                rotateTo180,
-                move1,
-                rotateTo270,
-                move2,
-                rotateTo360,
-                move3
+                segment0Animator,
+                segment1Animator,
+                segment2Animator,
+                segment3Animator
         );
 
         animatorSet.setStartDelay(startDelay);
@@ -171,8 +173,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                rocket.setRotation(0);
-                animatorSet.start();
+                rocket.setRotation(0); // Reset rotation for the next loop
+                animatorSet.start(); // Loop the animation
             }
         });
         animatorSet.start();
@@ -194,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < numberOfStars; i++) {
             ImageView star = new ImageView(this);
-            star.setImageResource(R.drawable.star); // Ensure R.drawable.star exists
+            star.setImageResource(R.drawable.star);
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(starSizePx, starSizePx);
             star.setLayoutParams(params);
 
@@ -262,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < numberOfStars; i++) {
             ImageView star = new ImageView(this);
-            star.setImageResource(R.drawable.star); // Ensure R.drawable.star exists
+            star.setImageResource(R.drawable.star);
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(starSizePx, starSizePx);
             star.setLayoutParams(params);
 
@@ -276,10 +278,10 @@ public class MainActivity extends AppCompatActivity {
 
             float initialX = initialMinX + random.nextFloat() * (initialMaxX - initialMinX);
             float initialY = initialMinY + random.nextFloat() * (initialMaxY - initialMinY);
-            
+
             initialX = Math.max(initialMinX, Math.min(initialX, initialMaxX));
             initialY = Math.max(initialMinY, Math.min(initialY, initialMaxY));
-            
+
             if (initialX < 0) initialX = padding;
             if (initialY < 0) initialY = padding;
             if (initialX > screenWidth - starSizePx) initialX = screenWidth - starSizePx - padding;
@@ -349,6 +351,5 @@ public class MainActivity extends AppCompatActivity {
         }
         starViews.clear();
         if (rocketImageView != null) rocketImageView.animate().cancel();
-        if (rocketImageViewBR != null) rocketImageViewBR.animate().cancel();
-    }
+\    }
 }

@@ -31,17 +31,6 @@
         android:contentDescription="@string/floating_rocket" />
 
     <ImageView
-        android:id="@+id/rocket_imageview_br"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/rocket"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="32dp"
-        android:contentDescription="@string/floating_rocket_br" />
-
-    <ImageView
         android:id="@+id/vignette_top_imageview"
         android:layout_width="0dp"
         android:layout_height="150dp"
@@ -91,8 +80,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.19999999" />
 
-    <!-- REMOVED: arcade_machine_imageview -->
-    <!-- REMOVED: static star_imageview -->
-    <!-- REMOVED: loading_progressbar (if it was present before this consolidated change) -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
