@@ -1,57 +1,92 @@
 package com.adhiraj.lab01;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Rect;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.content.Intent;
-import android.graphics.Path;
-import android.graphics.PointF;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.LinearInterpolator; // Changed for floating effect
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivityLifecycle";
+    private static final String PREFS_NAME = "ArcadeSettingsPrefs";
+    private static final String PREF_HIGH_SCORE = "highScore";
+    private static final String PREF_POWER_UP_INDEX = "powerUpIndex";
+    private static final String PREF_ROCKET_VISIBLE = "rocketVisible";
+    private static final String PREF_STARS_VISIBLE = "starsVisible";
 
     private ConstraintLayout mainLayout;
     private ImageView rocketImageView;
-    // private ImageView rocketImageViewBR; // Removed second rocket
     private TextView greetingDisplay;
     private Button playButton;
+    private ImageButton settingsButton;
 
-    private final List<View> starViews = new ArrayList<>();
-    private final Random random = new Random();
-    private final int padding = 100;
+    private int screenWidth;
+    private int screenHeight;
 
-    private static final int TOP_REGION_STARS = 10;
-    private static final int BOTTOM_RIGHT_REGION_STARS = 5;
-    private static final int DEFAULT_STAR_SIZE_DP = 20;
+    private boolean isRocketVisibleSetting = true;
+    private boolean isStarsVisible = true;
+    private int currentPowerUpIndex = 0;
+    private int highScore = 0;
+    private String[] powerUps;
+
+    private Star starManager;
+    private Rocket rocketManager;
+
+    private Handler interactionHandler;
+    private Runnable interactionCheckRunnable;
+    private static final long INTERACTION_CHECK_INTERVAL = 100;
+    private static final float TRANSPARENT_ALPHA = 0.3f;
+    private static final float OPAQUE_ALPHA = 1.0f;
+
+    private final int rocketAnimationPadding = 100; // Increased padding
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate called");
         setContentView(R.layout.activity_main);
+
+        interactionHandler = new Handler();
 
         mainLayout = findViewById(R.id.arcade_main_layout);
         greetingDisplay = findViewById(R.id.greeting_textview);
-        rocketImageView = findViewById(R.id.rocket_imageview);playButton = findViewById(R.id.play_button);
+        rocketImageView = findViewById(R.id.rocket_imageview);
+        playButton = findViewById(R.id.play_button);
+        settingsButton = findViewById(R.id.settings_button);
 
-        playButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
-            startActivity(intent);
-            finish();
-        });
+        powerUps = getResources().getStringArray(R.array.power_ups_array);
+        
+        rocketManager = new Rocket(rocketImageView, mainLayout);
+
+        if (settingsButton != null) {
+            settingsButton.setOnClickListener(v -> {
+                Log.d(TAG, "Settings button clicked");
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            });
+        } else {
+            Log.e(TAG, "Settings button is null!");
+        }
+
+        if (playButton != null) {
+            playButton.setOnClickListener(v -> {
+                Log.i(TAG, "Play button clicked! Starting MainMenuActivity.");
+                Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
+                startActivity(intent);
+            });
+        }
 
         ViewTreeObserver viewTreeObserver = mainLayout.getViewTreeObserver();
         if (viewTreeObserver.isAlive()) {
@@ -59,297 +94,195 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onGlobalLayout() {
                     mainLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    screenWidth = mainLayout.getWidth();
+                    screenHeight = mainLayout.getHeight();
+                    Log.d(TAG, "GlobalLayout: screenWidth=" + screenWidth + ", screenHeight=" + screenHeight);
 
-                    if (mainLayout.getWidth() == 0 || mainLayout.getHeight() == 0) {
-                        mainLayout.post(this::onGlobalLayout);
-                        return;
+                    loadAndApplySettings(); // Applies settings including rocket visibility
+
+                    if (starManager == null && screenWidth > 0 && screenHeight > 0) {
+                        starManager = new Star(MainActivity.this, mainLayout, screenWidth, screenHeight);
                     }
+                    if (starManager != null) {
+                        starManager.setStarsVisible(isStarsVisible); // This is still managed by Star's own logic
+                    }
+                    
+                    // Rocket state is now handled by loadAndApplySettings calling rocketManager.setAnimatingState
 
-                    int screenWidth = mainLayout.getWidth();
-                    int screenHeight = mainLayout.getHeight();
-
-                    animateRocketPerimeter(rocketImageView, screenWidth, screenHeight, 0);
-
-                    createStarAnimationTopRegion(TOP_REGION_STARS);
-                    createStarAnimationBottomRightRegion(BOTTOM_RIGHT_REGION_STARS);
+                    initializeAndStartInteractionChecks();
                 }
             });
         }
     }
 
-    private void animateRocketPerimeter(ImageView rocket, int screenWidth, int screenHeight, long startDelay) {
-        if (rocket.getWidth() == 0 || rocket.getHeight() == 0) {
-            rocket.post(() -> animateRocketPerimeter(rocket, screenWidth, screenHeight, startDelay));
-            return;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume called");
+
+        if (mainLayout.getWidth() > 0 && mainLayout.getHeight() > 0) {
+            screenWidth = mainLayout.getWidth();
+            screenHeight = mainLayout.getHeight();
+        } else {
+             Log.w(TAG, "onResume: mainLayout dimensions not available yet.");
         }
 
-        int rocketWidth = rocket.getWidth();
-        int rocketHeight = rocket.getHeight();
+        loadAndApplySettings(); // This will call rocketManager.setAnimatingState with potentially stale screen dimensions if not updated above
 
-        PointF p0 = new PointF(padding, padding);
-        PointF p1 = new PointF(screenWidth - rocketWidth - padding, padding);
-        PointF p2 = new PointF(screenWidth - rocketWidth - padding, screenHeight - rocketHeight - padding);
-        PointF p3 = new PointF(padding, screenHeight - rocketHeight - padding);
+        // Ensure rocket has the latest dimensions, especially if they became available in onResume
+        if (rocketManager != null && screenWidth > 0 && screenHeight > 0) {
+             Log.d(TAG, "onResume: Updating rocket animating state with current screen dimensions: " + screenWidth + "x" + screenHeight);
+            rocketManager.setAnimatingState(isRocketVisibleSetting, screenWidth, screenHeight, rocketAnimationPadding);
+        }
 
-        rocket.setX(p0.x);
-        rocket.setY(p0.y);
-        rocket.setRotation(0); // Initial rotation state
-
-        long edgeDuration = 8000; // Increased for slower movement
-        float curveFactor = 250f; // Increased for curvier paths
-
-        Path path0 = new Path();
-        path0.moveTo(p0.x, p0.y);
-        path0.quadTo(p0.x + (p1.x - p0.x) / 2, p0.y - curveFactor, p1.x, p1.y);
-
-        Path path1 = new Path();
-        path1.moveTo(p1.x, p1.y);
-        path1.quadTo(p1.x + curveFactor, p1.y + (p2.y - p1.y) / 2, p2.x, p2.y);
-
-        Path path2 = new Path();
-        path2.moveTo(p2.x, p2.y);
-        path2.quadTo(p2.x - (p2.x - p3.x) / 2, p2.y + curveFactor, p3.x, p3.y);
-
-        Path path3 = new Path();
-        path3.moveTo(p3.x, p3.y);
-        path3.quadTo(p3.x - curveFactor, p3.y - (p3.y - p0.y) / 2, p0.x, p0.y);
-
-        ObjectAnimator move0 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path0);
-        move0.setDuration(edgeDuration);
-        move0.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator move1 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path1);
-        move1.setDuration(edgeDuration);
-        move1.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator move2 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path2);
-        move2.setDuration(edgeDuration);
-        move2.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator move3 = ObjectAnimator.ofFloat(rocket, View.X, View.Y, path3);
-        move3.setDuration(edgeDuration);
-        move3.setInterpolator(new LinearInterpolator());
-
-        // Rotation animators: duration changed to edgeDuration
-        ObjectAnimator rotateTo90 = ObjectAnimator.ofFloat(rocket, "rotation", 0, 90);
-        rotateTo90.setDuration(edgeDuration); // Use edgeDuration for gradual turn
-        rotateTo90.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator rotateTo180 = ObjectAnimator.ofFloat(rocket, "rotation", 90, 180);
-        rotateTo180.setDuration(edgeDuration); // Use edgeDuration for gradual turn
-        rotateTo180.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator rotateTo270 = ObjectAnimator.ofFloat(rocket, "rotation", 180, 270);
-        rotateTo270.setDuration(edgeDuration); // Use edgeDuration for gradual turn
-        rotateTo270.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator rotateTo360 = ObjectAnimator.ofFloat(rocket, "rotation", 270, 360);
-        rotateTo360.setDuration(edgeDuration); // Use edgeDuration for gradual turn
-        rotateTo360.setInterpolator(new LinearInterpolator());
-
-        // AnimatorSet to play movement and rotation together for each segment
-        AnimatorSet segment0Animator = new AnimatorSet();
-        segment0Animator.playTogether(move0, rotateTo90);
-
-        AnimatorSet segment1Animator = new AnimatorSet();
-        segment1Animator.playTogether(move1, rotateTo180);
-
-        AnimatorSet segment2Animator = new AnimatorSet();
-        segment2Animator.playTogether(move2, rotateTo270);
-
-        AnimatorSet segment3Animator = new AnimatorSet();
-        segment3Animator.playTogether(move3, rotateTo360);
+        if (starManager != null) {
+            starManager.updateScreenDimensions(screenWidth, screenHeight);
+            starManager.setStarsVisible(isStarsVisible);
+        } else if (screenWidth > 0 && screenHeight > 0) {
+            starManager = new Star(MainActivity.this, mainLayout, screenWidth, screenHeight);
+            starManager.setStarsVisible(isStarsVisible);
+            Log.d(TAG, "onResume: starManager initialized and visibility set.");
+        }
         
-        final AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playSequentially(
-                segment0Animator,
-                segment1Animator,
-                segment2Animator,
-                segment3Animator
-        );
-
-        animatorSet.setStartDelay(startDelay);
-        animatorSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                rocket.setRotation(0); // Reset rotation for the next loop
-                animatorSet.start(); // Loop the animation
-            }
-        });
-        animatorSet.start();
-    }
-
-    private int dpToPx(int dp) {
-        return (int) (dp * getResources().getDisplayMetrics().density);
-    }
-
-    private void createStarAnimationTopRegion(int numberOfStars) {
-        if (mainLayout.getWidth() == 0 || mainLayout.getHeight() == 0) {
-            mainLayout.post(() -> createStarAnimationTopRegion(numberOfStars));
-            return;
+        if (interactionCheckRunnable != null && interactionHandler != null && isStarsVisible) {
+            interactionHandler.removeCallbacks(interactionCheckRunnable);
+            interactionHandler.post(interactionCheckRunnable);
+            Log.d(TAG, "Interaction checks (re)started in onResume.");
+        } else if (!isStarsVisible && interactionHandler != null && interactionCheckRunnable != null) {
+            interactionHandler.removeCallbacks(interactionCheckRunnable);
+            Log.d(TAG, "Interaction checks stopped in onResume as stars are not visible.");
         }
-
-        int screenWidth = mainLayout.getWidth();
-        int screenHeight = mainLayout.getHeight();
-        int starSizePx = dpToPx(DEFAULT_STAR_SIZE_DP);
-
-        for (int i = 0; i < numberOfStars; i++) {
-            ImageView star = new ImageView(this);
-            star.setImageResource(R.drawable.star);
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(starSizePx, starSizePx);
-            star.setLayoutParams(params);
-
-            float initialMaxY = (screenHeight / 3f) - starSizePx - padding;
-            float initialMaxX = screenWidth - starSizePx - padding;
-
-            if (initialMaxX <= padding) initialMaxX = padding + 1;
-            if (initialMaxY <= padding) initialMaxY = padding + 1;
-
-            float initialX = padding + random.nextFloat() * (initialMaxX - padding);
-            float initialY = padding + random.nextFloat() * (initialMaxY - padding);
-
-            star.setX(Math.max(padding, Math.min(initialX, screenWidth - starSizePx - padding)));
-            star.setY(Math.max(padding, Math.min(initialY, (screenHeight / 3f) - starSizePx - padding)));
-
-            mainLayout.addView(star);
-            starViews.add(star);
-            startBoundedStarAnimationTopRegion(star, starSizePx);
-        }
-    }
-
-    private void startBoundedStarAnimationTopRegion(View starView, int starSize) {
-        if (mainLayout.getWidth() == 0 || mainLayout.getHeight() == 0) {
-            mainLayout.post(() -> startBoundedStarAnimationTopRegion(starView, starSize));
-            return;
-        }
-        int screenWidth = mainLayout.getWidth();
-        int screenHeight = mainLayout.getHeight();
-
-        float minX = padding;
-        float maxX = screenWidth - starSize - padding;
-        float minY = padding;
-        float maxY = (screenHeight / 3f) - starSize - padding;
-
-        if (maxX <= minX) maxX = minX + 1;
-        if (maxY <= minY) maxY = minY + 1;
-
-        float targetX = minX + random.nextFloat() * (maxX - minX);
-        float targetY = minY + random.nextFloat() * (maxY - minY);
-        float rotation = random.nextFloat() * 360;
-        long duration = 3000 + random.nextInt(4000);
-
-        starView.animate()
-                .x(targetX)
-                .y(targetY)
-                .rotation(rotation)
-                .setDuration(duration)
-                .withEndAction(() -> {
-                    if (starView.getParent() != null) {
-                        startBoundedStarAnimationTopRegion(starView, starSize);
-                    }
-                })
-                .start();
-    }
-
-    private void createStarAnimationBottomRightRegion(int numberOfStars) {
-        if (mainLayout.getWidth() == 0 || mainLayout.getHeight() == 0) {
-            mainLayout.post(() -> createStarAnimationBottomRightRegion(numberOfStars));
-            return;
-        }
-
-        int screenWidth = mainLayout.getWidth();
-        int screenHeight = mainLayout.getHeight();
-        int starSizePx = dpToPx(DEFAULT_STAR_SIZE_DP);
-
-        for (int i = 0; i < numberOfStars; i++) {
-            ImageView star = new ImageView(this);
-            star.setImageResource(R.drawable.star);
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(starSizePx, starSizePx);
-            star.setLayoutParams(params);
-
-            float initialMinX = screenWidth / 2f + padding;
-            float initialMaxX = screenWidth - starSizePx - padding;
-            float initialMinY = screenHeight * 2 / 3f + padding;
-            float initialMaxY = screenHeight - starSizePx - padding;
-
-            if (initialMaxX <= initialMinX) initialMaxX = initialMinX + 1;
-            if (initialMaxY <= initialMinY) initialMaxY = initialMinY + 1;
-
-            float initialX = initialMinX + random.nextFloat() * (initialMaxX - initialMinX);
-            float initialY = initialMinY + random.nextFloat() * (initialMaxY - initialMinY);
-
-            initialX = Math.max(initialMinX, Math.min(initialX, initialMaxX));
-            initialY = Math.max(initialMinY, Math.min(initialY, initialMaxY));
-
-            if (initialX < 0) initialX = padding;
-            if (initialY < 0) initialY = padding;
-            if (initialX > screenWidth - starSizePx) initialX = screenWidth - starSizePx - padding;
-            if (initialY > screenHeight - starSizePx) initialY = screenHeight - starSizePx - padding;
-
-            star.setX(initialX);
-            star.setY(initialY);
-
-            mainLayout.addView(star);
-            starViews.add(star);
-            startBoundedStarAnimationBottomRightRegion(star, starSizePx);
-        }
-    }
-
-    private void startBoundedStarAnimationBottomRightRegion(View starView, int starSize) {
-        if (mainLayout.getWidth() == 0 || mainLayout.getHeight() == 0) {
-            mainLayout.post(() -> startBoundedStarAnimationBottomRightRegion(starView, starSize));
-            return;
-        }
-        int screenWidth = mainLayout.getWidth();
-        int screenHeight = mainLayout.getHeight();
-
-        float minX = screenWidth / 2f + padding;
-        float maxX = screenWidth - starSize - padding;
-        float minY = screenHeight * 2 / 3f + padding;
-        float maxY = screenHeight - starSize - padding;
-
-        if (maxX <= minX) maxX = minX + 1;
-        if (maxY <= minY) maxY = minY + 1;
-
-        float targetX = minX + random.nextFloat() * (maxX - minX);
-        float targetY = minY + random.nextFloat() * (maxY - minY);
-        float rotation = random.nextFloat() * 360;
-        long duration = 3000 + random.nextInt(4000);
-
-        starView.animate()
-                .x(targetX)
-                .y(targetY)
-                .rotation(rotation)
-                .setDuration(duration)
-                .withEndAction(() -> {
-                    if (starView.getParent() != null) {
-                        startBoundedStarAnimationBottomRightRegion(starView, starSize);
-                    }
-                })
-                .start();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        Log.d(TAG, "onPause called");
+        if (interactionHandler != null && interactionCheckRunnable != null) {
+            interactionHandler.removeCallbacks(interactionCheckRunnable);
+            Log.d(TAG, "Interaction checks stopped in onPause.");
+        }
+        if (rocketManager != null) {
+            Log.d(TAG, "onPause: Telling rocketManager to stop its animation.");
+            rocketManager.stopAnimation(); 
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        for (View starView : starViews) {
-            starView.animate().cancel();
-            if (starView.getParent() != null) {
-                ((ConstraintLayout) starView.getParent()).removeView(starView);
-            }
+        Log.d(TAG, "onDestroy called");
+        if (rocketManager != null) {
+             Log.d(TAG, "onDestroy: Telling rocketManager to stop its animation.");
+            rocketManager.stopAnimation();
         }
-        starViews.clear();
-        if (rocketImageView != null) rocketImageView.animate().cancel();
-\    }
+        if (starManager != null) {
+            starManager.setStarsVisible(false); // Stop star animations and clear views
+        }
+        if (interactionHandler != null && interactionCheckRunnable != null) {
+            interactionHandler.removeCallbacks(interactionCheckRunnable);
+        }
+    }
+
+    private void loadAndApplySettings() {
+        Log.d(TAG, "loadAndApplySettings called");
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        isRocketVisibleSetting = prefs.getBoolean(PREF_ROCKET_VISIBLE, true);
+        isStarsVisible = prefs.getBoolean(PREF_STARS_VISIBLE, true);
+        currentPowerUpIndex = prefs.getInt(PREF_POWER_UP_INDEX, 0);
+        highScore = prefs.getInt(PREF_HIGH_SCORE, 0);
+
+        Log.d(TAG, "Loaded settings: isRocketVisibleSetting=" + isRocketVisibleSetting + ", isStarsVisible=" + isStarsVisible);
+
+        if (rocketManager != null) {
+            // Screen dimensions might not be fully initialized when this is first called from onCreate's GlobalLayoutListener
+            // (if called before screenWidth/Height are set). 
+            // Rocket.java's setAnimatingState now has internal checks to postpone if dimensions are 0.
+            Log.d(TAG, "loadAndApplySettings: Setting rocket animating state. Screen: " + screenWidth + "x" + screenHeight);
+            rocketManager.setAnimatingState(isRocketVisibleSetting, screenWidth, screenHeight, rocketAnimationPadding);
+        }
+
+        if (starManager != null) {
+            starManager.setStarsVisible(isStarsVisible);
+        }
+    }
+
+    private boolean checkCollision(View view1, View view2) {
+        if (view1 == null || view2 == null || view1.getVisibility() != View.VISIBLE || view2.getVisibility() != View.VISIBLE) {
+            return false;
+        }
+        Rect rect1 = new Rect();
+        view1.getHitRect(rect1);
+        Rect rect2 = new Rect();
+        view2.getHitRect(rect2);
+        return Rect.intersects(rect1, rect2);
+    }
+
+    private boolean isStarNearScreenCenter(View starView) {
+        if (starView == null || screenWidth == 0 || screenHeight == 0 || starView.getWidth() == 0 || starView.getHeight() == 0) {
+            return false;
+        }
+        float starCenterX = starView.getX() + (starView.getWidth() / 2f);
+        float starCenterY = starView.getY() + (starView.getHeight() / 2f);
+        float centerXMin = screenWidth / 3f;
+        float centerXMax = 2 * screenWidth / 3f;
+        float centerYMin = screenHeight / 3f;
+        float centerYMax = 2 * screenHeight / 3f;
+
+        return starCenterX >= centerXMin && starCenterX <= centerXMax &&
+                starCenterY >= centerYMin && starCenterY <= centerYMax;
+    }
+
+    private void initializeAndStartInteractionChecks() {
+        if (interactionCheckRunnable != null) {
+            if (isStarsVisible && interactionHandler != null) {
+                interactionHandler.removeCallbacks(interactionCheckRunnable);
+                interactionHandler.post(interactionCheckRunnable);
+                Log.d(TAG, "Interaction checks re-initialized and started.");
+            } else if (!isStarsVisible && interactionHandler != null) {
+                interactionHandler.removeCallbacks(interactionCheckRunnable);
+                Log.d(TAG, "Interaction checks stopped as stars are not visible during re-init.");
+            }
+            return;
+        }
+
+        interactionCheckRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (starManager == null || !isStarsVisible || starManager.getStarViews().isEmpty() ||
+                        greetingDisplay == null || playButton == null || mainLayout.getWidth() == 0) {
+                    if (interactionHandler != null) {
+                        interactionHandler.postDelayed(this, INTERACTION_CHECK_INTERVAL);
+                    }
+                    return;
+                }
+
+                for (View starView : starManager.getStarViews()) {
+                    if (starView.getVisibility() != View.VISIBLE) {
+                        continue;
+                    }
+
+                    boolean intersectsWithUI = checkCollision(starView, greetingDisplay) || checkCollision(starView, playButton);
+                    boolean nearCenter = isStarNearScreenCenter(starView);
+
+                    if (intersectsWithUI && nearCenter) {
+                        starView.setAlpha(TRANSPARENT_ALPHA);
+                    } else {
+                        starView.setAlpha(OPAQUE_ALPHA);
+                    }
+                }
+
+                if (interactionHandler != null) {
+                    interactionHandler.postDelayed(this, INTERACTION_CHECK_INTERVAL);
+                }
+            }
+        };
+
+        if (isStarsVisible && interactionHandler != null) {
+            interactionHandler.post(interactionCheckRunnable);
+            Log.d(TAG, "Interaction checks initialized and started for the first time.");
+        } else {
+            Log.d(TAG, "Interaction checks not started initially as stars are not visible.");
+        }
+    }
 }

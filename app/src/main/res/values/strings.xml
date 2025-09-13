@@ -8,7 +8,7 @@
     <string name="arcade_machine">Arcade machine</string>
     <string name="floating_rocket">Floating rocket</string>
     <string name="star">Star</string>
-    <string name="floating_rocket_br">Floating rocket bottom right</string>
+    <string name="floating__rocket_br">Floating rocket bottom right</string>
     <string name="level_one_intro_text">Level 1: These Kids</string>
 
     <string name="level_1_button_text">Level 1: These Kids</string>
@@ -17,4 +17,24 @@
     <string name="level_4_button_text">Level 4: Is It Really That Hard to Get an A?</string>
     <string name="level_5_button_text">Level 5: ???</string>
     <string name="play_button_text">Play</string>
+
+    <string name="high_score_text">HIGH SCORE: %1$d</string>
+    <string-array name="power_ups_array">
+        <item>Power-up: Shield</item>
+        <item>Power-up: Speed Boost</item>
+        <item>Power-up: Double Points</item>
+        <item>Power-up: None</item>
+    </string-array>
+
+    <string name="settings_title">Settings</string>
+    <string name="settings_toggle_rocket">Show Rocket</string>
+    <string name="settings_toggle_stars">Show Stars</string>
+    <string name="settings_button_description">Open Settings</string>
+    <string name="bonus_mode_toggle_description">Toggle Bonus Mode</string>
+    <string name="lt"><![CDATA[<]]></string>
+    <string name="power_up_name">Power Up Name</string>
+    <string name="gt"><![CDATA[>]]></string>
+    <string name="power_up_label">Power-up:</string>
+    <string name="apply_button_text">Apply</string>
+    <string name="back_button_desc">Back</string>
 </resources>
