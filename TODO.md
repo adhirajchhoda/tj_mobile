@@ -1,0 +1,5 @@
+- [ ] Add reset settings button in the settings
+- [ ] Make a separate rocket class - copy the current logic and move it and then of course you have to change the main activity
+- [ ] Address deprecated API usage in `C:\Users\achom\AndroidStudioProjects\tj_mobile\app\src\main\java\com\adhiraj\lab01\MainActivity.java`
+- [ ] Make the background a separate xml and incorporate that for the settings main menu activity and settings activity
+- [ ] Add the Mr. Tra sprite and then work on the first level
