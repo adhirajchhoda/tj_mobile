@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton; // Added for ImageButton
+import android.widget.ImageButton; 
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -17,7 +17,7 @@ public class Lab02Activity extends AppCompatActivity {
     TextView planetDisplayTextView;
     Button incrementButton;
     Button decrementButton;
-    ImageButton lab02BackButton; // Changed to ImageButton
+    ImageButton lab02BackButton; 
     RadioGroup directionRadioGroup;
     RadioButton radioUp;
     RadioButton radioDown;
@@ -35,7 +35,7 @@ public class Lab02Activity extends AppCompatActivity {
         planetDisplayTextView = findViewById(R.id.planet_display_textview);
         incrementButton = findViewById(R.id.increment_button);
         decrementButton = findViewById(R.id.decrement_button);
-        lab02BackButton = findViewById(R.id.lab02_back_button); // Initialize ImageButton
+        lab02BackButton = findViewById(R.id.lab02_back_button); 
         directionRadioGroup = findViewById(R.id.direction_radiogroup);
         radioUp = findViewById(R.id.radio_up);
         radioDown = findViewById(R.id.radio_down);
@@ -52,12 +52,12 @@ public class Lab02Activity extends AppCompatActivity {
             public void onClick(View v) {
                 int viewId = v.getId();
                 if (viewId == R.id.increment_button) {
-                    if (radioUp.isChecked()) { // Transcript: "if right radio button (radioUp) is checked...increment"
+                    if (radioUp.isChecked()) { 
                         count++;
                         count %= planetsArray.length;
                     }
                 } else if (viewId == R.id.decrement_button) {
-                    if (radioDown.isChecked()) { // Transcript: "if left radio button (radioDown) is checked...decrement"
+                    if (radioDown.isChecked()) { 
                         count--;
                         if (count < 0) {
                             count = planetsArray.length - 1;
@@ -83,10 +83,10 @@ public class Lab02Activity extends AppCompatActivity {
 
     private void updatePlanetDisplay() {
         if (planetsArray != null && planetsArray.length > 0) {
-            // Ensure count is within valid range, though logic above should handle it.
+            
             int safeIndex = count;
-            if (safeIndex < 0) safeIndex = planetsArray.length -1; // Should align with decrement logic
-            safeIndex = safeIndex % planetsArray.length; // Final safety for positive overflow
+            if (safeIndex < 0) safeIndex = planetsArray.length -1; 
+            safeIndex = safeIndex % planetsArray.length; 
             planetDisplayTextView.setText(planetsArray[safeIndex]);
         }
     }

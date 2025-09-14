@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton; // Added for ImageButton
+import android.widget.ImageButton; 
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class Lab01Activity extends AppCompatActivity {
-    ImageButton lab01BackButton; // Changed to ImageButton
+    ImageButton lab01BackButton; 
     Button incrementButton;
     TextView countDisplay;
     int count = 0;
@@ -20,7 +20,7 @@ public class Lab01Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab01);
 
-        lab01BackButton = findViewById(R.id.lab01_back_button); // Initialize ImageButton
+        lab01BackButton = findViewById(R.id.lab01_back_button); 
         incrementButton = findViewById(R.id.increment_button);
         countDisplay = findViewById(R.id.count_textview);
 
@@ -28,7 +28,7 @@ public class Lab01Activity extends AppCompatActivity {
         updateCountDisplayColor();
 
         lab01BackButton.setOnClickListener(v -> {
-            finish(); // Go back to the previous activity
+            finish(); 
         });
 
         incrementButton.setOnClickListener(v -> {

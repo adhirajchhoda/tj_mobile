@@ -18,7 +18,7 @@ public class Rocket {
     private static final String TAG = "Rocket";
 
     private ImageView rocketImageView;
-    private ConstraintLayout mainLayout; // To get dimensions if view is not ready
+    private ConstraintLayout mainLayout; 
     private AnimatorSet currentAnimatorSet;
     private int animationPadding;
 
@@ -78,15 +78,15 @@ public class Rocket {
     }
 
     private float calculateDynamicCurveFactor() {
-        if (animationPadding <= 0) return 0f; // No curve if no padding
-        // Curve factor will be between 10% and 90% of padding
-        float factor = (random.nextFloat() * 0.8f) + 0.1f; // Random multiplier between 0.1 and 0.9
+        if (animationPadding <= 0) return 0f; 
+        
+        float factor = (random.nextFloat() * 0.8f) + 0.1f; 
         float curve = animationPadding * factor;
 
-        // Ensure a minimum visible curve if padding is large enough
+        
         if (animationPadding >= 20) { 
             return Math.max(10f, curve);
-        } else { // For smaller paddings, stick to fraction of padding
+        } else { 
             return curve;
         }
     }
@@ -102,7 +102,7 @@ public class Rocket {
             Log.d(TAG, "animatePerimeterInternal: Existing animation running, cancelling it first.");
             this.currentAnimatorSet.removeAllListeners(); 
             this.currentAnimatorSet.cancel();
-            // No need to set this.currentAnimatorSet to null here, it will be reassigned.
+            
         }
         
         int rocketWidth = rocketImageView.getWidth();
@@ -124,7 +124,7 @@ public class Rocket {
         rocketImageView.setY(p0.y);
         rocketImageView.setRotation(90); 
 
-        long edgeDuration = 7000L; // Slightly faster movement
+        long edgeDuration = 7000L; 
         long rotationDuration = 500;
         
         float c0 = calculateDynamicCurveFactor();
@@ -150,7 +150,7 @@ public class Rocket {
 
         ObjectAnimator move0 = ObjectAnimator.ofFloat(rocketImageView, View.X, View.Y, path0);
         move0.setDuration(edgeDuration);
-        move0.setInterpolator(new LinearInterpolator()); // Less slowdown at corners
+        move0.setInterpolator(new LinearInterpolator()); 
 
         ObjectAnimator move1 = ObjectAnimator.ofFloat(rocketImageView, View.X, View.Y, path1);
         move1.setDuration(edgeDuration);
@@ -201,9 +201,9 @@ public class Rocket {
         mainAnimatorSetInstance.addListener(new AnimatorListenerAdapter() {
             private boolean wasCancelled = false;
             @Override
-            public void onAnimationEnd(Animator animationArgument) { // Renamed to avoid confusion
+            public void onAnimationEnd(Animator animationArgument) { 
                 super.onAnimationEnd(animationArgument);
-                 // Check if this ended animation (mainAnimatorSetInstance) is still the one we consider 'current'.
+                 
                 if (Rocket.this.currentAnimatorSet != mainAnimatorSetInstance || wasCancelled) {
                     Log.d(TAG, "onAnimationEnd: Stale or cancelled animation ended. Current: " + Rocket.this.currentAnimatorSet + ", Ended: " + mainAnimatorSetInstance);
                     return; 
@@ -212,10 +212,10 @@ public class Rocket {
                 if (shouldBeAnimating && rocketImageView != null && rocketImageView.getVisibility() == View.VISIBLE) {
                     Log.d(TAG, "onAnimationEnd: Looping rocket animation with new stochastic path.");
                     rocketImageView.setRotation(90); 
-                    animatePerimeterInternal(0); // Rebuild and restart for stochastic paths
+                    animatePerimeterInternal(0); 
                 } else {
                     Log.d(TAG, "onAnimationEnd: Not looping. shouldBeAnimating=" + shouldBeAnimating);
-                    Rocket.this.currentAnimatorSet = null; // Clear if not looping
+                    Rocket.this.currentAnimatorSet = null; 
                 }
             }
 
@@ -250,7 +250,7 @@ public class Rocket {
             currentAnimatorSet.removeAllListeners();
             currentAnimatorSet.cancel();
         }
-        currentAnimatorSet = null; // Always nullify after cancelling or if it wasn't running
+        currentAnimatorSet = null; 
     }
 
     public void setVisibility(int visibility) {
@@ -259,13 +259,13 @@ public class Rocket {
             if (visibility == View.GONE || visibility == View.INVISIBLE) {
                 if (shouldBeAnimating) { 
                     Log.d(TAG, "setVisibility: View set to GONE/INVISIBLE, ensuring animation is stopped.");
-                    this.shouldBeAnimating = false; // Stop intending to animate
-                    cancelAnimationInternal(); // Stop current animation
+                    this.shouldBeAnimating = false; 
+                    cancelAnimationInternal(); 
                 }
             } else if (visibility == View.VISIBLE && shouldBeAnimating && (currentAnimatorSet == null || !currentAnimatorSet.isRunning())) {
-                // If it should be animating, is made visible, and not already running
+                
                 Log.d(TAG, "setVisibility: View set to VISIBLE and shouldBeAnimating is true, ensuring animation (re)starts.");
-                updateAnimationStatusInternal(); // Attempt to start/restart animation
+                updateAnimationStatusInternal(); 
             }
         }
     }

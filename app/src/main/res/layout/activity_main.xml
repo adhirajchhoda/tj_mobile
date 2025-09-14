@@ -8,7 +8,7 @@
     android:background="@drawable/main_background"
     tools:context=".MainActivity">
 
-    <!-- UI Elements on top of background/vignettes -->
+    
     <ImageView
         android:id="@+id/rocket_imageview"
         android:layout_width="100dp"

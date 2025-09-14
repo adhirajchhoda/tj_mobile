@@ -1,4 +1,8 @@
 <resources>
     <dimen name="lab02_greeting_text_size">30sp</dimen>
-    <dimen name="likes_textview_text_size">30sp</dimen> <!-- Added this as per previous step -->
+    <dimen name="likes_textview_text_size">30sp</dimen> 
+
+    
+    <dimen name="corner_view_size">150dp</dimen>
+    <dimen name="corner_view_fontsize">30sp</dimen>
 </resources>

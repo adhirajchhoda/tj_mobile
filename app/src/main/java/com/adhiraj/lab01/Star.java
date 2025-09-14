@@ -22,7 +22,7 @@ public class Star {
     private Random random = new Random();
     private int screenWidth;
     private int screenHeight;
-    private boolean areStarsCurrentlyVisible = true; // Internal state to track desired visibility
+    private boolean areStarsCurrentlyVisible = true; 
 
     public Star(Context context, ConstraintLayout mainLayout, int screenWidth, int screenHeight) {
         this.context = context;
@@ -54,7 +54,7 @@ public class Star {
                 } else {
                     for (View starView : starViews) {
                         starView.setVisibility(View.VISIBLE);
-                        // Check if animation is null or not running, then restart
+                        
                         AnimatorSet currentAnimatorSet = (AnimatorSet) starView.getTag(R.id.star_animator_set);
                         if (currentAnimatorSet == null || !currentAnimatorSet.isRunning()) {
                             resetStarPositionAndAnimate(starView);
@@ -70,7 +70,7 @@ public class Star {
                 AnimatorSet animatorSet = (AnimatorSet) starView.getTag(R.id.star_animator_set); 
                 if (animatorSet != null) {
                     animatorSet.cancel();
-                    starView.setTag(R.id.star_animator_set, null); // Clear the tag
+                    starView.setTag(R.id.star_animator_set, null); 
                 }
                 mainLayout.removeView(starView);
             }
@@ -89,15 +89,15 @@ public class Star {
                 if (starViews.isEmpty()) {
                     Log.d(TAG, "Screen dimensions set, stars are visible and none exist. Creating stars.");
                     createInitialStars();
-                } else if (dimensionsChanged) { // Only reset if dimensions actually changed
+                } else if (dimensionsChanged) { 
                     Log.d(TAG, "Dimensions changed, re-managing star animations for existing stars.");
                      for (View starView : starViews) {
                         starView.setVisibility(View.VISIBLE); 
                          resetStarPositionAndAnimate(starView); 
                     }
                 }
-                // Call manageAnimations to ensure animations are running correctly, even if dimensions didn't change
-                // but stars needed to be created or visibility toggled.
+                
+                
                 manageAnimations();
             } else {
                  Log.d(TAG, "Screen dimensions are zero, cannot manage stars.");
@@ -147,11 +147,11 @@ public class Star {
         }
         starView.setVisibility(View.VISIBLE);
 
-        // Cancel any existing animation before starting a new one
+        
         AnimatorSet oldAnimatorSet = (AnimatorSet) starView.getTag(R.id.star_animator_set);
         if (oldAnimatorSet != null) {
-            oldAnimatorSet.cancel(); // Cancel previous animation
-            starView.setTag(R.id.star_animator_set, null); // Clear the tag immediately after cancelling
+            oldAnimatorSet.cancel(); 
+            starView.setTag(R.id.star_animator_set, null); 
         }
 
         int starViewWidth = starView.getWidth() > 0 ? starView.getWidth() : ((ConstraintLayout.LayoutParams)starView.getLayoutParams()).width;
@@ -187,7 +187,7 @@ public class Star {
         newAnimatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                // Check if the animation that ended is the current one associated with the starView
+                
                 if (starView.getTag(R.id.star_animator_set) == newAnimatorSet) { 
                     if (areStarsCurrentlyVisible && starView.getVisibility() == View.VISIBLE && mainLayout.indexOfChild(starView) != -1) {
                         Log.d(TAG, "Star animation ended, resetting position for star: " + starView.hashCode());
@@ -197,7 +197,7 @@ public class Star {
                          if (mainLayout.indexOfChild(starView) == -1) {
                              starViews.remove(starView); 
                          }
-                         starView.setTag(R.id.star_animator_set, null); // Clear tag if not resetting
+                         starView.setTag(R.id.star_animator_set, null); 
                     }
                 } else {
                      Log.d(TAG, "Star animation ended (possibly old one) for star: " + starView.hashCode());
@@ -206,7 +206,7 @@ public class Star {
              @Override
             public void onAnimationCancel(Animator animation) {
                 Log.d(TAG, "Star animation cancelled for star: " + starView.hashCode());
-                // If this specific animation is cancelled, clear its tag
+                
                 if (starView.getTag(R.id.star_animator_set) == newAnimatorSet) {
                     starView.setTag(R.id.star_animator_set, null);
                 }
@@ -235,10 +235,10 @@ public class Star {
             Log.d(TAG, "No stars exist but should be visible, creating initial set via manageAnimations.");
             createInitialStars();
         } else {
-            for (View starView : new ArrayList<>(starViews)) { // Iterate over a copy in case of modification
+            for (View starView : new ArrayList<>(starViews)) { 
                 if (mainLayout.indexOfChild(starView) == -1) {
                     Log.d(TAG, "Star " + starView.hashCode() + " not in layout, removing from list.");
-                    starViews.remove(starView); // Clean up from list
+                    starViews.remove(starView); 
                     continue;
                 }
                 starView.setVisibility(View.VISIBLE); 

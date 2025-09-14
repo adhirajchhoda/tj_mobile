@@ -20,10 +20,10 @@
 
     <string name="high_score_text">HIGH SCORE: %1$d</string>
     <string-array name="power_ups_array">
-        <item>Power-up: Shield</item>
-        <item>Power-up: Speed Boost</item>
-        <item>Power-up: Double Points</item>
-        <item>Power-up: None</item>
+        <item>Shield</item>
+        <item>Speed Boost</item>
+        <item>Double Points</item>
+        <item>None</item>
     </string-array>
 
     <string name="settings_title">Settings</string>
@@ -36,6 +36,7 @@
     <string name="gt"><![CDATA[>]]></string>
     <string name="power_up_label">Power-up:</string>
     <string name="apply_button_text">Apply</string>
+    <string name="reset_button_text">Reset</string>
     <string name="back_button_desc">Back</string>
 
     <string name="lab01_greeting">Hello World</string>
@@ -69,5 +70,15 @@
     <string name="lab02_decrement_button_text">Decrement Planets</string>
     <string name="lab02_planet_display_initial">Current Planet</string>
 
-
+    <!-- Lab 03 Strings -->
+    <string name="lab03_initial_corner_view_text">0</string>
+    <string name="lab03_top_left_default_text">Top Left</string>
+    <string name="lab03_top_right_default_text">Top Right</string>
+    <string name="lab03_bottom_left_default_text">Bottom Left</string>
+    <string name="lab03_bottom_right_default_text">Bottom Right</string>
+    <string name="lab03_snackbar_font_changed">Font size changed to %1$dsp</string>
+    <string name="lab03_snackbar_action_undo">UNDO</string>
+    <string name="lab03_snackbar_font_reverted">Font size reverted to %1$dsp</string>
+    <string name="lab03_reset_clicks_button_text">Reset Clicks</string>
+    <string name="lab03_back_button_text">Back</string>
 </resources>
