@@ -21,12 +21,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private TextView highScoreTextView;
     private TextView powerUpTextView;
-    private Button prevPowerUpButton;
-    private Button nextPowerUpButton;
     private SwitchCompat rocketVisibleSwitch;
     private SwitchCompat starsVisibleSwitch;
-    private Button applyButton;
-    private Button resetButton; 
 
     private String[] powerUps;
     private int currentPowerUpIndex = 0;
@@ -47,12 +43,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         highScoreTextView = findViewById(R.id.settings_high_score_textview);
         powerUpTextView = findViewById(R.id.settings_power_up_textview);
-        prevPowerUpButton = findViewById(R.id.settings_prev_power_up_button);
-        nextPowerUpButton = findViewById(R.id.settings_next_power_up_button);
+        Button prevPowerUpButton = findViewById(R.id.settings_prev_power_up_button);
+        Button nextPowerUpButton = findViewById(R.id.settings_next_power_up_button);
         rocketVisibleSwitch = findViewById(R.id.settings_rocket_visible_switch);
         starsVisibleSwitch = findViewById(R.id.settings_stars_visible_switch);
-        applyButton = findViewById(R.id.settings_apply_button);
-        resetButton = findViewById(R.id.settings_reset_button); 
+        Button applyButton = findViewById(R.id.settings_apply_button);
+        Button resetButton = findViewById(R.id.settings_reset_button);
 
         powerUps = getResources().getStringArray(R.array.power_ups_array);
 

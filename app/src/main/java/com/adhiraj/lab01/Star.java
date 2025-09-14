@@ -16,10 +16,10 @@ import java.util.Random;
 
 public class Star {
     private static final String TAG = "StarClass";
-    private Context context;
-    private ConstraintLayout mainLayout;
-    private List<View> starViews = new ArrayList<>();
-    private Random random = new Random();
+    private final Context context;
+    private final ConstraintLayout mainLayout;
+    private final List<View> starViews = new ArrayList<>();
+    private final Random random = new Random();
     private int screenWidth;
     private int screenHeight;
     private boolean areStarsCurrentlyVisible = true; 
@@ -154,8 +154,8 @@ public class Star {
             starView.setTag(R.id.star_animator_set, null); 
         }
 
-        int starViewWidth = starView.getWidth() > 0 ? starView.getWidth() : ((ConstraintLayout.LayoutParams)starView.getLayoutParams()).width;
-        int starViewHeight = starView.getHeight() > 0 ? starView.getHeight() : ((ConstraintLayout.LayoutParams)starView.getLayoutParams()).height;
+        int starViewWidth = starView.getWidth() > 0 ? starView.getWidth() : starView.getLayoutParams().width;
+        int starViewHeight = starView.getHeight() > 0 ? starView.getHeight() : starView.getLayoutParams().height;
 
         if (starViewWidth <=0 || starViewHeight <=0) {
             Log.w(TAG, "Star view dimensions are zero, star: " + starView.hashCode() + ". Using default size 20x20 for calculation.");

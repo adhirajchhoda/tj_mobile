@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,19 +26,14 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREF_STARS_VISIBLE = "starsVisible";
 
     private ConstraintLayout mainLayout;
-    private ImageView rocketImageView;
     private TextView greetingDisplay;
     private Button playButton;
-    private ImageButton settingsButton;
 
     private int screenWidth;
     private int screenHeight;
 
     private boolean isRocketVisibleSetting = true;
     private boolean isStarsVisible = true;
-    private int currentPowerUpIndex = 0;
-    private int highScore = 0;
-    private String[] powerUps;
 
     private Star starManager;
     private Rocket rocketManager;
@@ -62,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.arcade_main_layout);
         greetingDisplay = findViewById(R.id.greeting_textview);
-        rocketImageView = findViewById(R.id.rocket_imageview);
+        ImageView rocketImageView = findViewById(R.id.rocket_imageview);
         playButton = findViewById(R.id.play_button);
-        settingsButton = findViewById(R.id.settings_button);
+        ImageButton settingsButton = findViewById(R.id.settings_button);
 
-        powerUps = getResources().getStringArray(R.array.power_ups_array);
+        String[] powerUps = getResources().getStringArray(R.array.power_ups_array);
         
         rocketManager = new Rocket(rocketImageView, mainLayout);
 
@@ -186,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         isRocketVisibleSetting = prefs.getBoolean(PREF_ROCKET_VISIBLE, true);
         isStarsVisible = prefs.getBoolean(PREF_STARS_VISIBLE, true);
-        currentPowerUpIndex = prefs.getInt(PREF_POWER_UP_INDEX, 0);
-        highScore = prefs.getInt(PREF_HIGH_SCORE, 0);
+        int currentPowerUpIndex = prefs.getInt(PREF_POWER_UP_INDEX, 0);
+        int highScore = prefs.getInt(PREF_HIGH_SCORE, 0);
 
         Log.d(TAG, "Loaded settings: isRocketVisibleSetting=" + isRocketVisibleSetting + ", isStarsVisible=" + isStarsVisible);
 

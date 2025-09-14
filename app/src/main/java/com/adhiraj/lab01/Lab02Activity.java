@@ -47,34 +47,29 @@ public class Lab02Activity extends AppCompatActivity {
         updateLikesDisplay();
         updatePlanetDisplay();
 
-        View.OnClickListener planetCycleListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int viewId = v.getId();
-                if (viewId == R.id.increment_button) {
-                    if (radioUp.isChecked()) { 
-                        count++;
-                        count %= planetsArray.length;
-                    }
-                } else if (viewId == R.id.decrement_button) {
-                    if (radioDown.isChecked()) { 
-                        count--;
-                        if (count < 0) {
-                            count = planetsArray.length - 1;
-                        }
+        View.OnClickListener planetCycleListener = v -> {
+            int viewId = v.getId();
+            if (viewId == R.id.increment_button) {
+                if (radioUp.isChecked()) {
+                    count++;
+                    count %= planetsArray.length;
+                }
+            } else if (viewId == R.id.decrement_button) {
+                if (radioDown.isChecked()) {
+                    count--;
+                    if (count < 0) {
+                        count = planetsArray.length - 1;
                     }
                 }
-                updateLikesDisplay();
-                updatePlanetDisplay();
             }
+            updateLikesDisplay();
+            updatePlanetDisplay();
         };
 
         incrementButton.setOnClickListener(planetCycleListener);
         decrementButton.setOnClickListener(planetCycleListener);
 
-        lab02BackButton.setOnClickListener(v -> {
-            finish();
-        });
+        lab02BackButton.setOnClickListener(v -> finish());
     }
 
     private void updateLikesDisplay() {

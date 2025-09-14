@@ -1,5 +1,6 @@
 package com.adhiraj.lab01;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,33 +17,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Lab03Activity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener, SeekBar.OnSeekBarChangeListener {
-
-    
-    private TextView topLeftTextView, topRightTextView;
-    private Button bottomLeftButton, bottomRightButton;
-    private ImageButton backButton; 
     private TextView[] views;
     private SeekBar seekBar;
     private ConstraintLayout activityLayout;
-
-    
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private static final String SHARED_PREFS_TAG = "com.tradan.lab03.sharedprefs";
     private static final String SEEKBAR_PROGRESS_KEY = "seekbar_progress";
-
-
-    
     private int lastProgress;
-
-    
     private List<Long> clickTimestamps;
-    private static final long CPS_WINDOW_MS = 2000; 
-
+    private static final long CPS_WINDOW_MS = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +42,11 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
 
         
         activityLayout = findViewById(R.id.activity_lab03_layout);
-        topLeftTextView = findViewById(R.id.lab03_topleft_txtvw);
-        topRightTextView = findViewById(R.id.lab03_topright_txtvw);
-        bottomLeftButton = findViewById(R.id.lab03_bottomleft_button);
-        bottomRightButton = findViewById(R.id.lab03_bottomright_button);
-        backButton = findViewById(R.id.lab03_back_button); 
+        TextView topLeftTextView = findViewById(R.id.lab03_topleft_txtvw);
+        TextView topRightTextView = findViewById(R.id.lab03_topright_txtvw);
+        Button bottomLeftButton = findViewById(R.id.lab03_bottomleft_button);
+        Button bottomRightButton = findViewById(R.id.lab03_bottomright_button);
+        ImageButton backButton = findViewById(R.id.lab03_back_button);
         seekBar = findViewById(R.id.lab03_seekbar);
 
         
@@ -107,6 +94,7 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
         editor.apply(); 
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onClick(View v) {
         int viewId = v.getId();
@@ -127,13 +115,8 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
                 long currentTime = System.currentTimeMillis();
                 clickTimestamps.add(currentTime);
 
-                
-                Iterator<Long> iterator = clickTimestamps.iterator();
-                while (iterator.hasNext()) {
-                    if (iterator.next() < currentTime - CPS_WINDOW_MS) {
-                        iterator.remove();
-                    }
-                }
+
+                clickTimestamps.removeIf(aLong -> aLong < currentTime - CPS_WINDOW_MS);
 
                 float currentCPS = 0;
                 if (CPS_WINDOW_MS > 0) { 
@@ -191,21 +174,18 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
 
         String message = String.format(getString(R.string.lab03_snackbar_font_changed), sb.getProgress());
         Snackbar snackbar = Snackbar.make(activityLayout, message, Snackbar.LENGTH_LONG);
-        snackbar.setAction(R.string.lab03_snackbar_action_undo, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sb.setProgress(lastProgress);
-                
-                for (TextView tv : views) {
-                    tv.setTextSize(lastProgress);
-                }
-                
-                editor.putInt(SEEKBAR_PROGRESS_KEY, lastProgress);
-                editor.apply();
+        snackbar.setAction(R.string.lab03_snackbar_action_undo, view -> {
+            sb.setProgress(lastProgress);
 
-                String revertedMessage = String.format(getString(R.string.lab03_snackbar_font_reverted), lastProgress);
-                Snackbar.make(activityLayout, revertedMessage, Snackbar.LENGTH_SHORT).show();
+            for (TextView tv : views) {
+                tv.setTextSize(lastProgress);
             }
+
+            editor.putInt(SEEKBAR_PROGRESS_KEY, lastProgress);
+            editor.apply();
+
+            String revertedMessage = String.format(getString(R.string.lab03_snackbar_font_reverted), lastProgress);
+            Snackbar.make(activityLayout, revertedMessage, Snackbar.LENGTH_SHORT).show();
         });
         snackbar.setActionTextColor(Color.CYAN); 
         snackbar.show();

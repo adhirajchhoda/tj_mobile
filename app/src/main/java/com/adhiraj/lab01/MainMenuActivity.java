@@ -64,10 +64,6 @@ public class MainMenuActivity extends AppCompatActivity {
         level4Button.setOnClickListener(otherLevelsClickListener);
         level5Button.setOnClickListener(otherLevelsClickListener);
 
-        backButton.setOnClickListener(v -> {
-            
-            
-            finish(); 
-        });
+        backButton.setOnClickListener(v -> finish());
     }
 }

@@ -27,9 +27,7 @@ public class Lab01Activity extends AppCompatActivity {
         countDisplay.setText(String.valueOf(count));
         updateCountDisplayColor();
 
-        lab01BackButton.setOnClickListener(v -> {
-            finish(); 
-        });
+        lab01BackButton.setOnClickListener(v -> finish());
 
         incrementButton.setOnClickListener(v -> {
             count++;

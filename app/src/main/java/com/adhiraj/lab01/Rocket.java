@@ -17,15 +17,15 @@ public class Rocket {
 
     private static final String TAG = "Rocket";
 
-    private ImageView rocketImageView;
-    private ConstraintLayout mainLayout; 
+    private final ImageView rocketImageView;
+    private final ConstraintLayout mainLayout;
     private AnimatorSet currentAnimatorSet;
     private int animationPadding;
 
     private boolean shouldBeAnimating = false;
     private int currentScreenWidth;
     private int currentScreenHeight;
-    private Random random = new Random();
+    private final Random random = new Random();
 
 
     public Rocket(ImageView rocketImageView, ConstraintLayout mainLayout) {
@@ -68,7 +68,7 @@ public class Rocket {
                 return; 
             }
             Log.d(TAG, "Dimensions ready, proceeding to start/restart animation.");
-            animatePerimeterInternal(0);
+            animatePerimeterInternal();
 
         } else { 
             Log.d(TAG, "setAnimatingState: shouldBeAnimating is false. Cancelling animation and setting GONE.");
@@ -92,7 +92,7 @@ public class Rocket {
     }
 
 
-    private void animatePerimeterInternal(long startDelay) {
+    private void animatePerimeterInternal() {
         if (rocketImageView == null) {
             Log.e(TAG, "animatePerimeterInternal: Rocket ImageView is null!");
             return;
@@ -182,9 +182,7 @@ public class Rocket {
         rotateTo450.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                if (rocketImageView != null) {
-                    rocketImageView.setRotation(90); 
-                }
+                rocketImageView.setRotation(90);
             }
         });
 
@@ -197,7 +195,7 @@ public class Rocket {
 
         final AnimatorSet mainAnimatorSetInstance = new AnimatorSet();
         mainAnimatorSetInstance.play(sequentialAnimations);
-        mainAnimatorSetInstance.setStartDelay(startDelay);
+        mainAnimatorSetInstance.setStartDelay(0);
         mainAnimatorSetInstance.addListener(new AnimatorListenerAdapter() {
             private boolean wasCancelled = false;
             @Override
@@ -209,10 +207,10 @@ public class Rocket {
                     return; 
                 }
 
-                if (shouldBeAnimating && rocketImageView != null && rocketImageView.getVisibility() == View.VISIBLE) {
+                if (shouldBeAnimating && rocketImageView.getVisibility() == View.VISIBLE) {
                     Log.d(TAG, "onAnimationEnd: Looping rocket animation with new stochastic path.");
                     rocketImageView.setRotation(90); 
-                    animatePerimeterInternal(0); 
+                    animatePerimeterInternal();
                 } else {
                     Log.d(TAG, "onAnimationEnd: Not looping. shouldBeAnimating=" + shouldBeAnimating);
                     Rocket.this.currentAnimatorSet = null; 
@@ -223,7 +221,7 @@ public class Rocket {
             public void onAnimationCancel(Animator animationArgument) {
                 super.onAnimationCancel(animationArgument);
                 wasCancelled = true; 
-                Log.d(TAG, "Rocket animation cancelled for: " + (rocketImageView != null ? rocketImageView.getId() : "null_image_view") + ", Instance: " + mainAnimatorSetInstance);
+                Log.d(TAG, "Rocket animation cancelled for: " + rocketImageView.getId() + ", Instance: " + mainAnimatorSetInstance);
                 if (Rocket.this.currentAnimatorSet == mainAnimatorSetInstance) {
                     Rocket.this.currentAnimatorSet = null;
                 }
