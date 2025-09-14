@@ -23,7 +23,7 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
 
     
     private TextView topLeftTextView, topRightTextView;
-    private Button bottomLeftButton, bottomRightButton, resetClicksButton;
+    private Button bottomLeftButton, bottomRightButton;
     private ImageButton backButton; 
     private TextView[] views;
     private SeekBar seekBar;
@@ -59,7 +59,6 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
         topRightTextView = findViewById(R.id.lab03_topright_txtvw);
         bottomLeftButton = findViewById(R.id.lab03_bottomleft_button);
         bottomRightButton = findViewById(R.id.lab03_bottomright_button);
-        resetClicksButton = findViewById(R.id.lab03_reset_clicks_button);
         backButton = findViewById(R.id.lab03_back_button); 
         seekBar = findViewById(R.id.lab03_seekbar);
 
@@ -67,11 +66,10 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
         views = new TextView[]{topLeftTextView, topRightTextView, bottomLeftButton, bottomRightButton};
 
         
-        activityLayout.setOnLongClickListener(this);
         for (TextView view : views) {
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
-        resetClicksButton.setOnClickListener(this); 
         backButton.setOnClickListener(this); 
         seekBar.setOnSeekBarChangeListener(this);
 
@@ -112,15 +110,7 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         int viewId = v.getId();
-        if (viewId == R.id.lab03_reset_clicks_button) {
-            for (TextView cornerView : views) {
-                cornerView.setText(getString(R.string.lab03_initial_corner_view_text));
-                editor.putString(cornerView.getTag().toString(), getString(R.string.lab03_initial_corner_view_text));
-            }
-            editor.apply();
-            clickTimestamps.clear();
-            Toast.makeText(this, "Clicks reset!", Toast.LENGTH_SHORT).show();
-        } else if (viewId == R.id.lab03_back_button) { 
+        if (viewId == R.id.lab03_back_button) { 
             finish(); 
         } else if (v instanceof TextView) { 
             TextView clickedView = (TextView) v;
@@ -162,7 +152,10 @@ public class Lab03Activity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onLongClick(View v) {
-        if (v.getId() == R.id.activity_lab03_layout) {
+        if (v.getId() == R.id.lab03_topleft_txtvw ||
+            v.getId() == R.id.lab03_topright_txtvw || 
+            v.getId() == R.id.lab03_bottomleft_button || 
+            v.getId() == R.id.lab03_bottomright_button) {
             
             editor.clear().apply();
             

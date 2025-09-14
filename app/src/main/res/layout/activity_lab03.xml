@@ -64,16 +64,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <Button
-        android:id="@+id/lab03_reset_clicks_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lab03_reset_clicks_button_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/lab03_seekbar"
-        android:layout_marginBottom="16dp" />
-
     <SeekBar
         android:id="@+id/lab03_seekbar"
         android:layout_width="match_parent"
