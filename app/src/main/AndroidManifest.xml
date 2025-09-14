@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".Lab01Activity" />
+        <activity android:name=".Lab02Activity" />
     </application>
 
 </manifest>

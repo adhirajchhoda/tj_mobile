@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private static final float TRANSPARENT_ALPHA = 0.3f;
     private static final float OPAQUE_ALPHA = 1.0f;
 
-    private final int rocketAnimationPadding = 100; // Increased padding
+    private final int rocketAnimationPadding = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,18 +98,16 @@ public class MainActivity extends AppCompatActivity {
                     screenHeight = mainLayout.getHeight();
                     Log.d(TAG, "GlobalLayout: screenWidth=" + screenWidth + ", screenHeight=" + screenHeight);
 
-                    loadAndApplySettings(); // Applies settings including rocket visibility
+                    loadAndApplySettings();
 
                     if (starManager == null && screenWidth > 0 && screenHeight > 0) {
                         starManager = new Star(MainActivity.this, mainLayout, screenWidth, screenHeight);
                     }
                     if (starManager != null) {
-                        starManager.setStarsVisible(isStarsVisible); // This is still managed by Star's own logic
-                    }
-                    
-                    // Rocket state is now handled by loadAndApplySettings calling rocketManager.setAnimatingState
+                        starManager.setStarsVisible(isStarsVisible);
 
-                    initializeAndStartInteractionChecks();
+                        initializeAndStartInteractionChecks();
+                    }
                 }
             });
         }
@@ -127,9 +125,8 @@ public class MainActivity extends AppCompatActivity {
              Log.w(TAG, "onResume: mainLayout dimensions not available yet.");
         }
 
-        loadAndApplySettings(); // This will call rocketManager.setAnimatingState with potentially stale screen dimensions if not updated above
+        loadAndApplySettings();
 
-        // Ensure rocket has the latest dimensions, especially if they became available in onResume
         if (rocketManager != null && screenWidth > 0 && screenHeight > 0) {
              Log.d(TAG, "onResume: Updating rocket animating state with current screen dimensions: " + screenWidth + "x" + screenHeight);
             rocketManager.setAnimatingState(isRocketVisibleSetting, screenWidth, screenHeight, rocketAnimationPadding);
@@ -177,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             rocketManager.stopAnimation();
         }
         if (starManager != null) {
-            starManager.setStarsVisible(false); // Stop star animations and clear views
+            starManager.setStarsVisible(false);
         }
         if (interactionHandler != null && interactionCheckRunnable != null) {
             interactionHandler.removeCallbacks(interactionCheckRunnable);
@@ -195,9 +192,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Loaded settings: isRocketVisibleSetting=" + isRocketVisibleSetting + ", isStarsVisible=" + isStarsVisible);
 
         if (rocketManager != null) {
-            // Screen dimensions might not be fully initialized when this is first called from onCreate's GlobalLayoutListener
-            // (if called before screenWidth/Height are set). 
-            // Rocket.java's setAnimatingState now has internal checks to postpone if dimensions are 0.
             Log.d(TAG, "loadAndApplySettings: Setting rocket animating state. Screen: " + screenWidth + "x" + screenHeight);
             rocketManager.setAnimatingState(isRocketVisibleSetting, screenWidth, screenHeight, rocketAnimationPadding);
         }

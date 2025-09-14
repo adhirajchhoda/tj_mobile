@@ -37,4 +37,37 @@
     <string name="power_up_label">Power-up:</string>
     <string name="apply_button_text">Apply</string>
     <string name="back_button_desc">Back</string>
+
+    <string name="lab01_greeting">Hello World</string>
+    <string name="lab01_press_me">Press Me</string>
+    <string name="lab01_decrease">Decrease</string>
+
+    <string name="lab01_main_greeting">Press a button!</string>
+    <string name="lab01_count_label">Count: 0</string>
+    <string name="lab01_textview_default_text">Color Changing Text</string>
+    <string name="lab01_increment_button">Increment</string>
+    <string name="lab01_decrement_button">Decrement</string>
+    <string name="lab01_initial_zero">0</string>
+
+    <!-- Lab 02 Strings -->
+    <string name="lab02_title_textview">Lab 02: GUI Elements</string>
+    <string name="lab02_greeting_initial">Hello Mom!</string>
+    <string name="lab02_likes_counter_initial">You have 0 likes</string>
+    <string name="lab02_greeting_html_formatted"><b>Hello</b> <u>World</u>!</string>
+    <string name="likes_count">You have %1$d likes</string>
+    <string-array name="planets_array">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+    </string-array>
+    <string name="radio_label_up">Up</string>
+    <string name="radio_label_down">Down</string>
+    <string name="lab02_next_item_button">Next Planet</string>
+    <string name="lab02_previous_item_button">Previous Planet</string>
+    <string name="lab02_increment_button_text">Increment Planets</string>
+    <string name="lab02_decrement_button_text">Decrement Planets</string>
+    <string name="lab02_planet_display_initial">Current Planet</string>
+
+
 </resources>

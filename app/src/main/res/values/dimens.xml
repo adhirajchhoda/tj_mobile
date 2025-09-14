@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="lab02_greeting_text_size">30sp</dimen>
+    <dimen name="likes_textview_text_size">30sp</dimen> <!-- Added this as per previous step -->
+</resources>

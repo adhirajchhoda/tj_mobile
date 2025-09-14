@@ -29,21 +29,37 @@ public class MainMenuActivity extends AppCompatActivity {
         level5Button = findViewById(R.id.level_5_button);
         backButton = findViewById(R.id.back_button);
 
-        View.OnClickListener levelClickListener = v -> {
+        // Listener for Level 1 button to start Lab01Activity
+        level1Button.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, Lab01Activity.class);
+            startActivity(intent);
+            // Optionally, show a toast or log that Lab01Activity is being started
+            // Toast.makeText(MainMenuActivity.this, "Loading Lab 01...", Toast.LENGTH_SHORT).show();
+        });
+
+        // Listener for Level 2 button to start Lab02Activity
+        level2Button.setOnClickListener(v -> {
+            Intent intent = new Intent(MainMenuActivity.this, Lab02Activity.class);
+            startActivity(intent);
+            // Optionally, show a toast or log that Lab02Activity is being started
+            // Toast.makeText(MainMenuActivity.this, "Loading Lab 02...", Toast.LENGTH_SHORT).show();
+        });
+
+        // Common listener for other level buttons (Levels 3-5)
+        View.OnClickListener otherLevelsClickListener = v -> {
             Button b = (Button) v;
-            Toast.makeText(MainMenuActivity.this, b.getText().toString() + " selected!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainMenuActivity.this, b.getText().toString() + " selected! (Not Lab 01 or Lab 02)", Toast.LENGTH_SHORT).show();
+            // Implement navigation or other actions for these buttons as needed
         };
 
-        level1Button.setOnClickListener(levelClickListener);
-        level2Button.setOnClickListener(levelClickListener);
-        level3Button.setOnClickListener(levelClickListener);
-        level4Button.setOnClickListener(levelClickListener);
-        level5Button.setOnClickListener(levelClickListener);
+        level3Button.setOnClickListener(otherLevelsClickListener);
+        level4Button.setOnClickListener(otherLevelsClickListener);
+        level5Button.setOnClickListener(otherLevelsClickListener);
 
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainMenuActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            // Intent intent = new Intent(MainMenuActivity.this, MainActivity.class);
+            // startActivity(intent);
+            finish(); // Simply finish to go back to the previous activity (MainActivity)
         });
     }
 }
