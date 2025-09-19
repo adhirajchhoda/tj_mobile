@@ -23,7 +23,7 @@ public class Lab02Activity extends AppCompatActivity {
     RadioButton radioDown;
 
     String[] planetsArray;
-    int count = 0; 
+    int count = -1; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

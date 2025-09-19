@@ -5,4 +5,41 @@
     
     <dimen name="corner_view_size">150dp</dimen>
     <dimen name="corner_view_fontsize">30sp</dimen>
+
+    <!-- Added for Lab 04 layouts -->
+    <dimen name="large_button_width">120dp</dimen>
+    <dimen name="large_button_height">120dp</dimen>
+    <dimen name="medium_button_height">60dp</dimen>
+    <dimen name="small_button_height">48dp</dimen>
+    <dimen name="small_button_width">100dp</dimen>
+    <dimen name="medium_padding">16dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="guideline_margin">5dp</dimen>
+    <dimen name="text_size_scroll_content">16sp</dimen>
+    <dimen name="medium_text_size">18sp</dimen>
+    <dimen name="label_text_size">20sp</dimen>
+    <dimen name="top_button_margin">16dp</dimen>
+    <dimen name="scroll_view_top_margin">8dp</dimen>
+    <dimen name="horizontal_scroll_height">80dp</dimen>
+    <dimen name="checkbox_text_size">16sp</dimen>
+
+    <!-- Added for layout_four.xml -->
+    <dimen name="very_large_button_size">150dp</dimen>
+    <dimen name="medium_button_size">100dp</dimen>
+    <dimen name="large_button_size">120dp</dimen>
+    <dimen name="small_button_size">80dp</dimen>
+
+    <!-- Added for layout_seven.xml -->
+    <dimen name="large_text_size">24sp</dimen>
+    <dimen name="large_margin">24dp</dimen>
+    <dimen name="tiny_padding">4dp</dimen>
+    <dimen name="small_text_size">14sp</dimen>
+
+    <!-- Added for layout_one.xml -->
+    <dimen name="large_square_button">100dp</dimen>
+
+    <!-- Added for layout_six.xml -->
+    <dimen name="medium_layout_height">200dp</dimen>
 </resources>

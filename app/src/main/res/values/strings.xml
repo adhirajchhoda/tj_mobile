@@ -81,4 +81,98 @@
     <string name="lab03_snackbar_font_reverted">Font size reverted to %1$dsp</string>
     <string name="lab03_reset_clicks_button_text">Reset Clicks</string>
     <string name="lab03_back_button_text">Back</string>
+
+    <!-- Added for Lab 04 layouts -->
+    <string name="layout_one_label">Layout One</string>
+    <string name="greeting_one_text">Greeting One</string>
+    <string name="greeting_two_text">Greeting Two</string>
+    <string name="greeting_three_text">Greeting Three</string>
+    <string name="greeting_four_text">Greeting Four</string>
+
+    <string name="layout_two_label">Layout Two</string>
+    <string name="centered_button_text">Centered</string>
+    <string name="side_button_one_text">Side 1</string>
+    <string name="side_button_two_text">Side 2</string>
+
+    <string name="layout_three_label">Layout Three</string>
+    <string name="top_textview_l3_text">Top Text</string>
+    <string name="fill_button_l3_text">Fill Width Button</string>
+    <string name="middle_button_l3_text">Middle Button</string>
+    <string name="bottom_button_l3_text">Bottom Button</string>
+
+    <string name="layout_four_label">Layout Four</string>
+    <string name="l4_button1_text">Large TopLeft</string>
+    <string name="l4_button2_text">Small RBias</string>
+    <string name="l4_button3_text">Med Bias</string>
+    <string name="l4_button4_text">Small Bias2</string>
+    <string name="l4_button5_text">Large Central</string>
+
+    <string name="layout_five_label">Layout Five</string>
+    <string name="top_button_l5_text">Top Button</string>
+    <string name="very_long_quote_text">"Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this. But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth."</string>
+
+    <string name="layout_six_label">Layout Six</string>
+    <string name="click_me_button_text">Click Me</string>
+    <string name="click_me_1">Click Me 1</string>
+    <string name="click_me_2">Click Me 2</string>
+    <string name="click_me_3">Click Me 3</string>
+    <string name="click_me_4">Click Me 4</string>
+    <string name="click_me_5">Click Me 5</string>
+    <string name="click_me_6">Click Me 6</string>
+    <string name="click_me_7">Click Me 7</string>
+    <string name="click_me_8">Click Me 8</string>
+    <string name="click_me_9">Click Me 9</string>
+    <string name="click_me_10">Click Me 10</string>
+    <string name="click_me_11">Click Me 11</string>
+    <string name="click_me_12">Click Me 12</string>
+
+    <string name="layout_seven_label">Layout Seven</string>
+    <string name="top_textview_l7_text">Layout Seven Top Text</string>
+    <string name="reusable_button_text">Reusable Button</string>
+    <string name="checkbox_label_template">Checkbox %1$d</string>
+
+    <!-- Added for layout_four.xml -->
+    <string name="l_button_1_text">L Button 1</string>
+    <string name="m_button_1_text">M Button 1</string>
+    <string name="l_button_2_text">L Button 2</string>
+    <string name="s_button_1_text">S Button 1</string>
+    <string name="s_button_2_text">S Button 2</string>
+
+    <!-- Added for layout_seven.xml -->
+    <string name="greeting_l7_text">Hello from Layout Seven!</string>
+    <string name="checkbox_option_1">Checkbox Option 1</string>
+    <string name="checkbox_option_2">Checkbox Option 2</string> <!-- Added as an example, you might need more -->
+
+    <!-- Added for layout_one.xml and layout_seven.xml -->
+    <string name="greeting_one">Greeting One</string>
+    <string name="greeting_two">Greeting Two</string>
+    <string name="greeting_three">Greeting Three</string>
+    <string name="greeting_four">Greeting Four</string>
+    <string name="checkbox_option_3">Checkbox Option 3</string>
+    <string name="checkbox_option_4">Checkbox Option 4</string>
+    <string name="checkbox_option_5">Checkbox Option 5</string>
+    <string name="checkbox_option_6">Checkbox Option 6</string>
+    <string name="checkbox_option_7">Checkbox Option 7</string>
+    <string name="checkbox_option_8">Checkbox Option 8</string>
+    <string name="checkbox_option_9">Checkbox Option 9</string>
+    <string name="checkbox_option_10">Checkbox Option 10</string>
+    <string name="checkbox_option_11">Checkbox Option 11</string>
+    <string name="checkbox_option_12">Checkbox Option 12</string>
+    <string name="checkbox_option_13">Checkbox Option 13</string>
+    <string name="checkbox_option_14">Checkbox Option 14</string>
+    <string name="checkbox_option_15">Checkbox Option 15</string>
+    <string name="top_greeting_text">Greeting Earthling</string>
+    <string name="fill_button_text">Like</string>
+    <string name="middle_button_text">Welcome #3</string>
+    <string name="bottom_button_text">We Made It</string>
+    <string name="button_tl_text">I\'m Left</string>
+    <string name="button_br_text">I\'m Right</string>
+    <string name="layout_1">Layout 1</string>
+    <string name="layout_2">Layout 2</string>
+    <string name="layout_3">Layout 3</string>
+    <string name="layout_4">Layout 4</string>
+    <string name="layout_5">Layout 5</string>
+    <string name="layout_6">Layout 6</string>
+    <string name="layout_7">Layout 7</string>
+
 </resources>

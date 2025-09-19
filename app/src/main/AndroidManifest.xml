@@ -23,6 +23,14 @@
         <activity android:name=".Lab01Activity" />
         <activity android:name=".Lab02Activity" />
         <activity android:name=".Lab03Activity" android:exported="false" />
+        <activity android:name=".Lab04Activity" android:exported="false" />
+        <activity android:name=".LayoutOneActivity"></activity>
+        <activity android:name=".LayoutTwoActivity"></activity>
+        <activity android:name=".LayoutThreeActivity"></activity>
+        <activity android:name=".LayoutFourActivity"></activity>
+        <activity android:name=".LayoutFiveActivity"></activity>
+        <activity android:name=".LayoutSixActivity"></activity>
+        <activity android:name=".LayoutSevenActivity"></activity>
     </application>
 
 </manifest>
