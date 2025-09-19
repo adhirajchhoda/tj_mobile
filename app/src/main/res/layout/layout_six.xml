@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray_background">
+
+    <HorizontalScrollView
+        android:id="@+id/horizontal_scroll_view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/medium_button_height"
+        android:background="@color/light_purple_scroll_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.15">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_horizontal_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Add many buttons here -->
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_1" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_2" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_3" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_4" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_5" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_6" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_7" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_8" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_9" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_10" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_11" />
+            <androidx.appcompat.widget.AppCompatButton style="@style/ScrollButton" android:text="@string/click_me_12" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/label_layout_six"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/layout_six_label"
+        android:textSize="@dimen/medium_text_size"
+        android:background="@color/white_transparent"
+        android:padding="@dimen/small_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_scroll_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+<!-- Define a style in styles.xml or directly apply attributes -->
+<!-- For example, in styles.xml (or themes.xml) -->
+<!-- 
+<style name="ScrollButton">
+    <item name="android:layout_width">@dimen/small_button_width</item>
+    <item name="android:layout_height">@dimen/small_button_height</item>
+    <item name="android:layout_margin">@dimen/tiny_margin</item>
+    <item name="android:background">@color/button_scroll_color</item>
+    <item name="android:textColor">@android:color/white</item>
+</style>
+-->
