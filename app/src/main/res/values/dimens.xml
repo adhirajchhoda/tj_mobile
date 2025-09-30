@@ -42,4 +42,7 @@
 
     <!-- Added for layout_six.xml -->
     <dimen name="medium_layout_height">200dp</dimen>
+    <dimen name="large_length">100dp</dimen>
+    <dimen name="med_length">75dp</dimen>
+    <dimen name="small_length">50dp</dimen>
 </resources>

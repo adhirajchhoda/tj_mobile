@@ -105,8 +105,7 @@ public class Lab04Activity extends AppCompatActivity {
                         View child = layoutSevenCheckboxes.getChildAt(i);
                         if (child instanceof CheckBox) {
                             CheckBox checkBox = (CheckBox) child;
-
-                            final String checkBoxText = checkBox.getText().toString(); 
+                            final String checkBoxText = checkBox.getText().toString();
                             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                 @Override
                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -119,6 +118,25 @@ public class Lab04Activity extends AppCompatActivity {
                 }
                 break;
             default:
+                if (currentLayoutIndex == -1) {
+                    int[] navButtonIds = {
+                            R.id.button_level_1, R.id.button_level_2, R.id.button_level_3,
+                            R.id.button_level_4, R.id.button_level_5, R.id.button_level_6, R.id.button_level_7
+                    };
+                    for (int i = 0; i < navButtonIds.length; i++) {
+                        Button navButton = findViewById(navButtonIds[i]);
+                        if (navButton != null) {
+                            final int targetLayoutIndex = i;
+                            navButton.setOnClickListener(v -> {
+                                if (targetLayoutIndex < layoutIds.length) {
+                                    currentLayoutIndex = targetLayoutIndex;
+                                    setContentView(layoutIds[currentLayoutIndex]);
+                                    initializeViewsAndListeners();
+                                }
+                            });
+                        }
+                    }
+                }
                 break;
         }
     }
@@ -126,6 +144,10 @@ public class Lab04Activity extends AppCompatActivity {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (currentLayoutIndex == -1) {
+                return super.onTouchEvent(event);
+            }
+
             currentLayoutIndex++;
             currentLayoutIndex %= layoutIds.length;
             setContentView(layoutIds[currentLayoutIndex]);

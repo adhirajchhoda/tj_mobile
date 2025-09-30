@@ -44,4 +44,6 @@
     <color name="yellow">#FFFF00</color>
     <color name="orange">#FFA500</color>
     <color name="reusable_button_color">#007BFF</color>
+    <color name="dark_green">#006400</color>
+    <color name="med_spring_green">#00FA9A</color>
 </resources>

@@ -1,87 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_blue">
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/large_button_top_left"
-        android:layout_width="@dimen/very_large_button_size"
-        android:layout_height="@dimen/very_large_button_size"
-        android:background="@color/dark_red"
-        android:text="@string/l_button_1_text"
-        android:textColor="@android:color/white"
+        android:layout_width="@dimen/large_length"
+        android:layout_height="@dimen/large_length"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="@dimen/medium_margin"
-        android:layout_marginStart="@dimen/medium_margin" />
-
-     <!-- This button will be overlapped by later buttons if positions conflict -->
+        android:background="@color/dark_red"/>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/medium_button_biased"
-        android:layout_width="@dimen/medium_button_size"
-        android:layout_height="@dimen/medium_button_size"
-        android:background="@color/lime_green"
-        android:text="@string/m_button_1_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="@dimen/med_length"
+        android:layout_height="@dimen/med_length"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.15"
-        app:layout_constraintVertical_bias="0.35" />
-
+        app:layout_constraintHorizontal_bias=".1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias=".3"
+        android:background="@color/lime_green"/>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/large_button_center_biased"
-        android:layout_width="@dimen/large_button_size"
-        android:layout_height="@dimen/large_button_size"
-        android:background="@color/teal"
-        android:text="@string/l_button_2_text"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="@dimen/large_length"
+        android:layout_height="@dimen/large_length"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.40"
-        app:layout_constraintVertical_bias="0.37" />
-
+        app:layout_constraintHorizontal_bias=".2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias=".40"
+        android:background="@color/teal"/>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/small_button_biased_right_bottom"
-        android:layout_width="@dimen/small_button_size"
-        android:layout_height="@dimen/small_button_size"
-        android:background="@color/hot_pink"
-        android:text="@string/s_button_1_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="@dimen/large_length"
+        android:layout_height="@dimen/large_length"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.90" 
-        app:layout_constraintVertical_bias="0.70" />
+        app:layout_constraintHorizontal_bias=".50"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias=".50"
+        android:background="@color/hot_pink"
+        android:text="@string/layout_label_4"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/small_button_biased_overlap"
-        android:layout_width="@dimen/small_button_size"
-        android:layout_height="@dimen/small_button_size"
+        android:layout_width="@dimen/small_length"
+        android:layout_height="@dimen/small_length"
         android:background="@color/gold"
-        android:text="@string/s_button_2_text"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.37"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.20"
-        app:layout_constraintVertical_bias="0.40" />
-
-    <TextView
-        android:id="@+id/label_layout_four"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/layout_four_label"
-        android:textSize="@dimen/medium_text_size"
-        android:background="@color/white_transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.444" />
 </androidx.constraintlayout.widget.ConstraintLayout>

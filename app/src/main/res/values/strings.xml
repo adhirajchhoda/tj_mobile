@@ -50,7 +50,6 @@
     <string name="lab01_decrement_button">Decrement</string>
     <string name="lab01_initial_zero">0</string>
 
-    <!-- Lab 02 Strings -->
     <string name="lab02_title_textview">Lab 02: GUI Elements</string>
     <string name="lab02_greeting_initial">Hello Mom!</string>
     <string name="lab02_likes_counter_initial">You have 0 likes</string>
@@ -70,7 +69,6 @@
     <string name="lab02_decrement_button_text">Decrement Planets</string>
     <string name="lab02_planet_display_initial">Current Planet</string>
 
-    <!-- Lab 03 Strings -->
     <string name="lab03_initial_corner_view_text">0</string>
     <string name="lab03_top_left_default_text">Top Left</string>
     <string name="lab03_top_right_default_text">Top Right</string>
@@ -82,7 +80,6 @@
     <string name="lab03_reset_clicks_button_text">Reset Clicks</string>
     <string name="lab03_back_button_text">Back</string>
 
-    <!-- Added for Lab 04 layouts -->
     <string name="layout_one_label">Layout One</string>
     <string name="greeting_one_text">Greeting One</string>
     <string name="greeting_two_text">Greeting Two</string>
@@ -109,7 +106,7 @@
 
     <string name="layout_five_label">Layout Five</string>
     <string name="top_button_l5_text">Top Button</string>
-    <string name="very_long_quote_text">"Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this. But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth."</string>
+    <string name="very_long_quote_text">"Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal. Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this. But, in a larger sense, we can not dedicate, we can not consecrate, we can not hallow, this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us, that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion, that we here highly resolve that these dead shall not have died in vain, that this nation, under God, shall have a new birth of freedom, and that government of the people, by the people, for the people, shall not perish from the earth."</string>
 
     <string name="layout_six_label">Layout Six</string>
     <string name="click_me_button_text">Click Me</string>
@@ -131,19 +128,18 @@
     <string name="reusable_button_text">Reusable Button</string>
     <string name="checkbox_label_template">Checkbox %1$d</string>
 
-    <!-- Added for layout_four.xml -->
     <string name="l_button_1_text">L Button 1</string>
     <string name="m_button_1_text">M Button 1</string>
     <string name="l_button_2_text">L Button 2</string>
     <string name="s_button_1_text">S Button 1</string>
     <string name="s_button_2_text">S Button 2</string>
 
-    <!-- Added for layout_seven.xml -->
+
     <string name="greeting_l7_text">Hello from Layout Seven!</string>
     <string name="checkbox_option_1">Checkbox Option 1</string>
-    <string name="checkbox_option_2">Checkbox Option 2</string> <!-- Added as an example, you might need more -->
+    <string name="checkbox_option_2">Checkbox Option 2</string>
 
-    <!-- Added for layout_one.xml and layout_seven.xml -->
+
     <string name="greeting_one">Greeting One</string>
     <string name="greeting_two">Greeting Two</string>
     <string name="greeting_three">Greeting Three</string>
@@ -175,4 +171,11 @@
     <string name="layout_6">Layout 6</string>
     <string name="layout_7">Layout 7</string>
 
+    <string name="layout_label_4">Layout 4</string>
+    <string name="layout_label_6">Layout 6</string>
+    <string name="checkbox_option_16">Checkbox Option 16</string>
+    <string name="checkbox_option_17">Checkbox Option 17</string>
+    <string name="checkbox_option_18">Checkbox Option 18</string>
+    <string name="checkbox_option_19">Checkbox Option 19</string>
+    <string name="checkbox_option_20">Checkbox Option 20</string>
 </resources>
